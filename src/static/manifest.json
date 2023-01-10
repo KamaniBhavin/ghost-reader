@@ -1,6 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Ghost Reader",
+  "author": "Bhavin Kamani (13havinkamani@gmail.com)",
   "version": "0.0.1",
   "description": "Get answers for anything on the page",
   "icons": {

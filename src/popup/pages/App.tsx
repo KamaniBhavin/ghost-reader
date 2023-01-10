@@ -28,7 +28,31 @@ function App() {
         } else if (response.error) {
             navigate("/error");
         } else if (response.lowConfidence) {
-            setError("Cannot find any good matches. Try again!");
+            setError("No relevant answers found!");
+        } else {
+            setError("");
+        }
+
+        setLoading(false);
+    }
+
+    async function handleSummarize() {
+        setLoading(true);
+        const tabs = await chrome.tabs.query({active: true, currentWindow: true});
+        const activeTab = tabs[0];
+
+        if (!activeTab) {
+            setLoading(false);
+            setError("No active tab");
+            return;
+        }
+
+        const response = await chrome.tabs.sendMessage(activeTab.id, {type: "summarize"});
+
+        if (!response) {
+            setError("We messed up! Please try again.");
+        } else if (response.error) {
+            navigate("/error");
         } else {
             setError("");
         }
@@ -51,6 +75,14 @@ function App() {
                 {loading ? <Loading/> : <button className="button" onClick={handleSearch}>🔍</button>}
             </div>
             <div className="inline-error">{error}</div>
+            <div className="row separator">
+                <hr className="divider"/>
+                <span>or</span>
+                <hr className="divider"/>
+            </div>
+            <div className="row row-center">
+                {loading ? <Loading/> : <button className="button" onClick={handleSummarize}>Summarize</button>}
+            </div>
         </div>
     </div>
 }

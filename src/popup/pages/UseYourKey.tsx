@@ -1,7 +1,7 @@
 import React from "react"
 import {useNavigate} from "react-router-dom";
 import {MdNavigateNext} from "react-icons/md";
-import {getEmbeddings} from "../../helpers/openAI";
+import {getEmbeddings} from "../../helpers/OpenAI";
 import Loading from "../components/Loading";
 import Header from "../components/Header";
 

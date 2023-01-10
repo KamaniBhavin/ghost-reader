@@ -1,0 +1,28 @@
+.ghost-summary {
+    background-color: #77766e99;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    position: fixed;
+    top: 10rem;
+    width: 70%;
+    left: 15%;
+    backdrop-filter: blur(11px);
+}
+
+.ghost-remove-button {
+    position: absolute;
+    top: -2rem;
+    padding: 0;
+    right: -2rem;
+    border: none;
+    border-radius: 50%;
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+    background-color: #ffffff00;
+    font-size: 2rem;
+}

@@ -1,60 +1,48 @@
-import {computeCosineSimilarityBetween} from "../helpers/math";
-import {createEmbeddings} from "../helpers/openAI";
-import {Embedding, TextElement} from "../helpers/types";
+import "./styles.css"
+import {extract} from "../helpers/Extractor";
+import {createEmbeddingsForLines} from "../helpers/Embeddor";
+import {summarize} from "../helpers/Summarizer";
+import {findTopSearchMatch} from "../helpers/SearchQueryProcessor";
+import {embedSalaryIntoPage} from "./Summary";
 
-const textElements = Array.from(document.querySelectorAll("p, li, h1, h2, h3, h4, h5, h6, span"))
-    .map(e => e as HTMLElement)
-    .filter((element) => element.innerText.split(" ").length > 5)
-    .map((element, index) => {
-        return {
-            index,
-            element,
-            text: element.innerText,
-        }
-    });
+// This is the main entry point for the content script
+const textElements = extract(document);
 
-const pageEmbeddings = (async function createEmbeddingsForLines(textElements: TextElement[]): Promise<Embedding[]> {
-        console.info("Computing embeddings for complete page!")
+// Cache the embeddings, so we don't have to recompute them every time
+const pageEmbeddings = createEmbeddingsForLines(textElements);
 
-        const lines = textElements.map(e => e.text)
+// Find the top search match
+async function search(request) {
+    const result = await findTopSearchMatch(request.search, pageEmbeddings);
 
-        if (!lines || lines.length === 0) {
-            return [];
-        }
-
-        const embeddings = await createEmbeddings(lines);
-
-        return embeddings.data.map((e) => ({
-            element: textElements[e.index].element,
-            line: textElements[e.index].text,
-            embedding: e.embedding,
-        }));
+    // Low confidence means we couldn't find a good match
+    if (result.similarity < 0.75) {
+        return {lowConfidence: true}
     }
-)(textElements);
 
+    result.element.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+    result.element.style.backgroundColor = "yellow";
+    return {error: false}
+}
+
+// Listen for messages from the popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     (async function () {
-        const searchEmbedding = (await createEmbeddings(request.search)).data[0].embedding;
+        switch (request.type) {
+            case "search":
+                sendResponse(await search(request));
+                break;
+            case "summarize":
+                const textToSummarize = textElements.map(e => e.text).join(" ");
+                const summary = await summarize(textToSummarize);
+                embedSalaryIntoPage(summary);
 
-        const similarities = (await pageEmbeddings).map((e) => {
-            return {
-                ...e,
-                similarity: computeCosineSimilarityBetween(e.embedding, searchEmbedding)
-            }
-        }).sort((a, b) => b.similarity - a.similarity);
-
-        const topSimilarity = similarities[0];
-
-        console.info("Top similarity", topSimilarity);
-
-        if (topSimilarity.similarity < 0.75) {
-            sendResponse({lowConfidence: true});
-        } else {
-            topSimilarity.element.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
-            topSimilarity.element.style.backgroundColor = "yellow";
-            sendResponse({error: false})
+                sendResponse({error: false});
+                break;
+            default:
+                sendResponse({error: true})
+                break;
         }
-
     })();
     return true;
 });
