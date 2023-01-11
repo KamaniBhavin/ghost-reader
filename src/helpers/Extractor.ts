@@ -9,7 +9,7 @@ import {TextElement} from "./types";
  * @returns The extracted text.
  */
 export function extract(document: Document): TextElement[] {
-    return Array.from(document.querySelectorAll("p, li, h1, h2, h3, h4, h5, h6, span"))
+    return Array.from(document.body.querySelectorAll("p, li, h1, h2, h3, h4, h5, h6, span"))
         .map(e => e as HTMLElement)
         .filter((element) => element.innerText.split(" ").length > 5)
         .map((element, index) => {

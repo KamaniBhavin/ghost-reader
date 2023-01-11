@@ -8,7 +8,7 @@ import {IoIosRemoveCircle} from "react-icons/io";
  * @param summary
  */
 export function embedSalaryIntoPage(summary: OpenAICompletionResponse) {
-    document.getElementById("ghost-reader-root")?.remove();
+    handleRemove();
 
     const div = document.createElement("div");
     div.id = "ghost-reader-root";
@@ -20,12 +20,20 @@ export function embedSalaryIntoPage(summary: OpenAICompletionResponse) {
 
 function Summary({text}) {
 
-    function handleRemove() {
-        document.getElementById("ghost-reader-root")?.remove();
-    }
-
-    return <div className="ghost-summary">
-        <button className="ghost-remove-button" onClick={handleRemove}><IoIosRemoveCircle/></button>
-        {text}
+    return <div className="ghost-reader-colorful-bk">
+        <div className="ghost-reader-summary">
+            <div className="ghost-reader-summary-title">
+                <div>Summary</div>
+            </div>
+            <hr className="ghost-reader-summary-divider"/>
+            <button className="ghost-reader-remove-button" onClick={handleRemove}><IoIosRemoveCircle/></button>
+            <div className="ghost-reader-summary-text">
+                {text}
+            </div>
+        </div>
     </div>
+}
+
+function handleRemove() {
+    document.getElementById("ghost-reader-root")?.remove();
 }

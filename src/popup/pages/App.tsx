@@ -5,18 +5,19 @@ import Loading from "../components/Loading";
 
 function App() {
     const navigate = useNavigate();
-    const [loading, setLoading] = React.useState(false);
+    const [searchLoading, setSearchLoading] = React.useState(false);
+    const [summaryLoading, setSummaryLoading] = React.useState(false);
     const [search, setSearch] = React.useState("");
     const [error, setError] = React.useState("");
 
 
     async function handleSearch() {
-        setLoading(true);
+        setSearchLoading(true);
         const tabs = await chrome.tabs.query({active: true, currentWindow: true});
         const activeTab = tabs[0];
 
         if (!activeTab) {
-            setLoading(false);
+            setSearchLoading(false);
             setError("No active tab");
             return;
         }
@@ -33,16 +34,16 @@ function App() {
             setError("");
         }
 
-        setLoading(false);
+        setSearchLoading(false);
     }
 
     async function handleSummarize() {
-        setLoading(true);
+        setSummaryLoading(true);
         const tabs = await chrome.tabs.query({active: true, currentWindow: true});
         const activeTab = tabs[0];
 
         if (!activeTab) {
-            setLoading(false);
+            setSummaryLoading(false);
             setError("No active tab");
             return;
         }
@@ -55,9 +56,10 @@ function App() {
             navigate("/error");
         } else {
             setError("");
+            window.close();
         }
 
-        setLoading(false);
+        setSummaryLoading(false);
     }
 
 
@@ -72,7 +74,12 @@ function App() {
                     type="text"
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                {loading ? <Loading/> : <button className="button" onClick={handleSearch}>🔍</button>}
+                {searchLoading
+                    ? <Loading/>
+                    : <button disabled={summaryLoading}
+                              className={`button ${summaryLoading ? "button--disabled" : ""}`}
+                              onClick={handleSearch}
+                    >🔍</button>}
             </div>
             <div className="inline-error">{error}</div>
             <div className="row separator">
@@ -81,7 +88,12 @@ function App() {
                 <hr className="divider"/>
             </div>
             <div className="row row-center">
-                {loading ? <Loading/> : <button className="button" onClick={handleSummarize}>Summarize</button>}
+                {summaryLoading
+                    ? <Loading/>
+                    : <button disabled={searchLoading}
+                        className={`button ${searchLoading ? "button--disabled" : ""}`}
+                        onClick={handleSummarize}
+                    >Summarize</button>}
             </div>
         </div>
     </div>

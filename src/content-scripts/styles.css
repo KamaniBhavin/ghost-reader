@@ -1,20 +1,42 @@
-.ghost-summary {
-    background-color: #77766e99;
-    padding: 10px;
+.ghost-reader-colorful-bk {
+    background: linear-gradient(90deg, #ff0000 0%, #ff7f00 14%, #ffff00 28%, #00ff00 42%, #0000ff 56%, #4b0082 70%, #9400d3 84%, #ff0000 100%);
+    backdrop-filter: blur(5px);
     margin: 10px;
-    border-radius: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    color: black;
     position: fixed;
     top: 10rem;
     width: 70%;
     left: 15%;
-    backdrop-filter: blur(11px);
     z-index: 999;
+    border-radius: 1rem;
 }
 
-.ghost-remove-button {
+.ghost-reader-summary {
+    border-radius: 1rem;
+    background-color: #ffffffe0;
+    backdrop-filter: blur(1rem);
+    padding: 1rem;
+    font-weight: 500;
+}
+
+.ghost-reader-summary-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4b4b4b;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.ghost-reader-summary-divider {
+    border: 1px solid #b0b0b0;
+    margin: 0.5rem 0;
+}
+
+.ghost-reader-summary-text {
+    font-size: 1rem;
+    color: #4b4b4b;
+}
+
+.ghost-reader-remove-button {
     position: absolute;
     top: -2rem;
     padding: 0;
