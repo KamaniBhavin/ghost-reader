@@ -7,7 +7,7 @@ import {IoIosRemoveCircle} from "react-icons/io";
  * It will inject the summary into the page.
  * @param summary
  */
-export function embedSalaryIntoPage(summary: OpenAICompletionResponse) {
+export function embedSummaryIntoPage(summary: OpenAICompletionResponse) {
     handleRemove();
 
     const div = document.createElement("div");

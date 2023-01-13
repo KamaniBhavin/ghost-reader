@@ -3,7 +3,7 @@ import {extract} from "../helpers/Extractor";
 import {createEmbeddingsForLines} from "../helpers/Embeddor";
 import {summarize} from "../helpers/Summarizer";
 import {findTopSearchMatch} from "../helpers/SearchQueryProcessor";
-import {embedSalaryIntoPage} from "./Summary";
+import {embedSummaryIntoPage} from "./Summary";
 
 // This is the main entry point for the content script
 const textElements = extract(document);
@@ -35,7 +35,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             case "summarize":
                 const textToSummarize = textElements.map(e => e.text).join(" ");
                 const summary = await summarize(textToSummarize);
-                embedSalaryIntoPage(summary);
+                embedSummaryIntoPage(summary);
 
                 sendResponse({error: false});
                 break;
