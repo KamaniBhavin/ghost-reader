@@ -19,5 +19,8 @@ export async function summarize(text: string): Promise<OpenAICompletionResponse>
         text = text.substring(0, 3000 - completionLength);
     }
 
-    return createCompletion(`Summarize: ${text}`, completionLength);
+    const prompt = `Remove all code blocks, hyperlinks, etc. from the ${text} and then summarize it. 
+    Also, use HTML to highlight the important parts of the text. Do not include code blocks, hyperlinks, etc. in the summary.`;
+
+    return createCompletion(prompt, completionLength);
 }

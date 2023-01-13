@@ -1,4 +1,3 @@
-import {IoMdLogOut} from "react-icons/io";
 import React, {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
@@ -26,7 +25,7 @@ function Header() {
                 onClick={() => {
                     chrome.storage.sync.remove("key")
                     navigate("/key")
-                }}><span className="icon"><IoMdLogOut/></span>
+                }}>Reset API key
             </button>
             : <div/>
         }

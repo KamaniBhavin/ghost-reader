@@ -28,7 +28,7 @@ function Summary({text}) {
             <hr className="ghost-reader-summary-divider"/>
             <button className="ghost-reader-remove-button" onClick={handleRemove}><IoIosRemoveCircle/></button>
             <div className="ghost-reader-summary-text">
-                {text}
+                <div dangerouslySetInnerHTML={{__html: text}}/>
             </div>
         </div>
     </div>

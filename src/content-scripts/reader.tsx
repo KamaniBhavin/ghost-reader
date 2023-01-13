@@ -11,6 +11,9 @@ const textElements = extract(document);
 // Cache the embeddings, so we don't have to recompute them every time
 const pageEmbeddings = createEmbeddingsForLines(textElements);
 
+// Summarize the page on initial page load and cache the result until the page is refreshed
+const summary = summarize(document.body.innerText);
+
 // Find the top search match
 async function search(request) {
     const result = await findTopSearchMatch(request.search, pageEmbeddings);
@@ -33,9 +36,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 sendResponse(await search(request));
                 break;
             case "summarize":
-                const textToSummarize = textElements.map(e => e.text).join(" ");
-                const summary = await summarize(textToSummarize);
-                embedSummaryIntoPage(summary);
+                embedSummaryIntoPage(await summary);
 
                 sendResponse({error: false});
                 break;
