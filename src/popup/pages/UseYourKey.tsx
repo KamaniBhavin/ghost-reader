@@ -31,7 +31,7 @@ function UseYourKey() {
     }
 
     function handleLinkClick() {
-        chrome.tabs.create({url: "https://drive.google.com/file/d/171pSreIXfOlJNYegJ0Cf-OOKfOWpR0QM/view?usp=share_link"});
+        chrome.tabs.create({url: "https://user-images.githubusercontent.com/46283833/212459128-cc380dba-d2ab-402c-896a-64c893f75cd7.mp4"});
     }
 
     return <div className="popup">
