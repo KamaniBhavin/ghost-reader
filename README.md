@@ -13,6 +13,8 @@
   - 🆓 Extension is free to use, but you need to provide your OpenAI API key. You can get it from [OpenAI Dashboard.](https://beta.openai.com/account/api-keys)
   - 🔒 We don't store your API key, it's only used to make requests to OpenAI API.
   - 🚫 Nothing is sent to our servers because we don't have any 😄.
+ 
+[How to generate OpenAI API key?](https://user-images.githubusercontent.com/46283833/212459549-629e0795-c10f-4950-a560-1f03baf0fe88.mp4)
 
 ## How to use
  - Install the extension from the Chrome Web Store
