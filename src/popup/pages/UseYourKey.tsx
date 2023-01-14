@@ -30,6 +30,10 @@ function UseYourKey() {
         setKey(e.target.value);
     }
 
+    function handleLinkClick() {
+        chrome.tabs.create({url: "https://drive.google.com/file/d/171pSreIXfOlJNYegJ0Cf-OOKfOWpR0QM/view?usp=share_link"});
+    }
+
     return <div className="popup">
         <Header/>
         <div className="app__container">
@@ -49,6 +53,7 @@ function UseYourKey() {
                         </button>
                 }
             </div>
+            <div className="link" onClick={handleLinkClick} >How to generate OpenAI API key?</div>
             <div className="inline-error">{error}</div>
         </div>
     </div>

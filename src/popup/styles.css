@@ -135,3 +135,9 @@ body {
     display: flex;
     font-size: 1rem;
 }
+
+.link {
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+}
